@@ -36,4 +36,18 @@ export default class TerminalUtil {
         terminal.white("\nPressione ENTER para continuar...");
         await terminal.inputField({ echo: false }).promise;
     }
+
+    static async campoRequerido(label: string, valorPadrao: string = ""): Promise<string> {
+        terminal.yellow(`\n${label}`);
+        const valor = await terminal.inputField({ default: valorPadrao }).promise;
+        return valor ? valor : TerminalUtil.campoRequerido(label);
+    }
+
+    static async sucesso(texto: string, novaLinha: boolean = true) {
+        terminal.green((novaLinha ? "\n" : "") + texto);
+    }
+
+    static async error(texto: string, novaLinha: boolean = true) {
+        terminal.red((novaLinha ? "\n" : "") + texto);
+    }
 }
